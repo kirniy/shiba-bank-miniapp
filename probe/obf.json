@@ -1,0 +1,14 @@
+{
+  "compact": true,
+  "identifierNamesGenerator": "hexadecimal",
+  "stringArray": true,
+  "stringArrayThreshold": 0.25,
+  "stringArrayRotate": false,
+  "stringArrayShuffle": false,
+  "stringArrayWrappersCount": 1,
+  "controlFlowFlattening": false,
+  "controlFlowFlatteningThreshold": 0.12,
+  "numbersToExpressions": false,
+  "simplify": true,
+  "disableConsoleOutput": false
+}
