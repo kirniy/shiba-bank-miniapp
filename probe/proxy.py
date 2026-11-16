@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Throwaway local proxy: serves the obfuscated bundle in place of Shiba's,
-proxying everything else to the live site so the app still authenticates."""
+"""Local dev proxy: serves the local build and proxies the API."""
 import http.server, socketserver, urllib.request, urllib.error, sys, os, re
 
-TARGET = "https://shiba-bank.com"
+TARGET = os.environ.get("APP_ORIGIN", "https://shiba-bank.com")
 UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) "
       "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148")
-OBF = "/Users/kirniy/dev/vvnvc-vendor/.build/out.js"
-CSS = "/Users/kirniy/dev/vvnvc-vendor/.build/obf.css"
+HERE = os.path.dirname(os.path.abspath(__file__))
+ASSETS = os.path.join(HERE, "..", "assets")
+import glob
+OBF = glob.glob(os.path.join(ASSETS, "app.*.js"))[0]
+CSS = glob.glob(os.path.join(ASSETS, "app.*.css"))[0]
 BUNDLE = re.compile(r"^/app/a/app\.[0-9a-f]+\.js")
 LOG = []
-STUB = open("/Users/kirniy/dev/vvnvc-vendor/.build/stub.js").read()
+STUB = open(os.path.join(HERE, "stub_v3.js")).read()
 
 
 class H(http.server.BaseHTTPRequestHandler):
